@@ -1,14 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import DefaultLayout from '../../layout/DefaultLayout';
+import axios from 'axios';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  address: string;
+}
 
 const SignIn: React.FC = () => {
+
+  const [user, setUser] = useState<User | null>(null);
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/auth/me', { withCredentials: true });
+      setUser(response.data);
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    }
+  };
+
+
+  useEffect(() => {
+
+    fetchUserInfo();
+  }, []);
+
+
   return (
+
     <DefaultLayout>
       <Breadcrumb pageName="Sign In" />
+      <div className="">
+        {user ? (
+          <div>
+            <p>ID: {user.id}</p>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+            <p>Address: {user.address}</p>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}      </div>
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
@@ -231,7 +270,8 @@ const SignIn: React.FC = () => {
                   />
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                <Link to="http://localhost:5000/auth/google"
+                  className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
                       width="20"
@@ -266,7 +306,7 @@ const SignIn: React.FC = () => {
                     </svg>
                   </span>
                   Sign in with Google
-                </button>
+                </Link>
 
                 <div className="mt-6 text-center">
                   <p>
