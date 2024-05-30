@@ -15,11 +15,14 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
+
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -133,6 +136,8 @@ function App() {
             </>
           }
         />
+        {/* gunakan protected route */}
+        {/* <Route element={<ProtectedRoute isLoggedIn={true} />}> */}
         <Route
           path="/auth/signup"
           element={
@@ -142,6 +147,7 @@ function App() {
             </>
           }
         />
+        {/* </Route> */}
       </Routes>
     </>
   );

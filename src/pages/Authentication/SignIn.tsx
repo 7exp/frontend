@@ -10,6 +10,9 @@ interface User {
   id: number;
   name: string;
   email: string;
+  role: string;
+  image: string;
+  token: string;
   address: string;
 }
 
@@ -43,6 +46,8 @@ const SignIn: React.FC = () => {
             <p>ID: {user.id}</p>
             <p>Name: {user.name}</p>
             <p>Email: {user.email}</p>
+            <p>Role: {user.role}</p>
+            <p>Token: {user.token}</p>
             <p>Address: {user.address}</p>
           </div>
         ) : (
